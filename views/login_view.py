@@ -30,5 +30,6 @@ class LoginView(ttk.Frame):
         if success:
             messagebox.showinfo("Başarılı", f"Hoş geldiniz, {user.FullName}!")
             self.app_controller.handle_login(user)  # Giriş başarılı olursa dashboard'a yönlendir
+            self.destroy()
         else:
             messagebox.showerror("Hata", "Giriş başarısız! Kullanıcı adı veya şifre hatalı.")

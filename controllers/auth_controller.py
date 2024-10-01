@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from models.user_model import User
 from models.role_model import Role
-#from werkzeug.security import check_password_hash  # Password hashing için kullanabilirsin
 
 class AuthController:
     def __init__(self, db_session: Session):
@@ -17,3 +16,19 @@ class AuthController:
     def logout(self):
         # Oturum sonlandırma işlemleri (örneğin session veya token temizleme)
         pass
+
+    def has_permission(self, user, permission_name: str) -> bool:
+        """
+        Kullanıcının belirli bir yetkiye sahip olup olmadığını kontrol eder.
+        :param user: Giriş yapmış kullanıcı
+        :param permission_name: Kontrol edilecek yetkinin adı (örneğin 'mesai', 'personel')
+        :return: Boolean (True or False)
+        """
+        # Kullanıcının rollerini ve yetkilerini alalım
+        roles = self.db_session.query(Role).filter(Role.RoleID == user.RoleID).all()
+        
+        for role in roles:
+            if role.RoleName == permission_name:
+                return True
+        return False
+
